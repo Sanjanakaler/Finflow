@@ -2,63 +2,57 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.72);
-  z-index: 200;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.2s ease;
 }
 
 .modal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: #161920;
+  border: 1px solid #2a2f40;
+  border-radius: 16px;
   padding: 28px;
   width: 420px;
   max-width: 95vw;
-  animation: fadeUp 0.25s ease;
+  z-index: 100000;
 }
 
 .title {
-  font-family: var(--font-head);
+  font-family: 'Syne', sans-serif;
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 22px;
+  color: #e8eaf0;
 }
 
-.row {
-  margin-bottom: 14px;
-  flex: 1;
-}
+.row { margin-bottom: 14px; flex: 1; }
 .row label {
   display: block;
   font-size: 11px;
-  color: var(--muted);
+  color: #6b7290;
   margin-bottom: 6px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 .row input, .row select {
   width: 100%;
-  background: var(--surface2);
-  border: 1px solid var(--border);
+  background: #1e2230;
+  border: 1px solid #2a2f40;
   border-radius: 8px;
   padding: 10px 12px;
-  color: var(--text);
-  font-family: var(--font-body);
+  color: #e8eaf0;
   font-size: 13px;
-  transition: border-color 0.2s;
 }
 .row input:focus, .row select:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: #6c63ff;
 }
-.row input::placeholder { color: var(--muted); }
+.row input::placeholder { color: #6b7290; }
 
 .twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-.error { color: var(--red); font-size: 12px; margin-bottom: 12px; }
+.error { color: #f87171; font-size: 12px; margin-bottom: 12px; }
 
 .btns {
   display: flex;
@@ -69,27 +63,22 @@
 
 .btnCancel {
   padding: 9px 18px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
+  background: #1e2230;
+  border: 1px solid #2a2f40;
   border-radius: 8px;
-  color: var(--muted);
-  font-family: var(--font-body);
+  color: #6b7290;
   font-size: 13px;
   cursor: pointer;
-  transition: color 0.2s;
 }
-.btnCancel:hover { color: var(--text); }
+.btnCancel:hover { color: #e8eaf0; }
 
 .btnSave {
   padding: 9px 22px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  background: linear-gradient(135deg, #6c63ff, #ff6584);
   border: none;
   border-radius: 8px;
   color: #fff;
-  font-family: var(--font-body);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
-.btnSave:hover { opacity: 0.88; }

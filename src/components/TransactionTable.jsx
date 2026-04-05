@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useApp, useFilteredTransactions } from '../context/AppContext';
-import { CATEGORY_COLORS, CATEGORY_ICONS, CATEGORIES } from '../data/mockData';
+import { CATEGORY_COLORS, CATEGORY_ICONS } from '../data/mockData';
 import AddTransactionModal from './AddTransactionModal';
 import styles from './TransactionTable.module.css';
 
@@ -16,16 +16,23 @@ export default function TransactionTable() {
   const [modalOpen, setModalOpen] = useState(false);
 
   function setFilter(obj) { dispatch({ type: 'SET_FILTER', payload: obj }); }
-
   const uniqueCategories = [...new Set(state.transactions.map(t => t.category))].sort();
+
+  function handleAddClick() {
+    setModalOpen(true);
+  }
 
   return (
     <div className="fade-up">
+      {modalOpen && (
+        <AddTransactionModal onClose={() => setModalOpen(false)} />
+      )}
+
       <div className={styles.header}>
         <h2 className={styles.title}>All Transactions</h2>
         <button
           className={styles.addBtn}
-          onClick={() => setModalOpen(true)}
+          onClick={handleAddClick}
           disabled={role !== 'admin'}
           title={role !== 'admin' ? 'Viewers cannot add transactions' : ''}
         >
@@ -33,7 +40,6 @@ export default function TransactionTable() {
         </button>
       </div>
 
-      {/* Filters */}
       <div className={styles.filters}>
         {['all', 'income', 'expense'].map(t => (
           <button
@@ -44,21 +50,11 @@ export default function TransactionTable() {
             {t.charAt(0).toUpperCase() + t.slice(1)}
           </button>
         ))}
-
-        <select
-          className={styles.filterSelect}
-          value={filters.category}
-          onChange={e => setFilter({ category: e.target.value })}
-        >
+        <select className={styles.filterSelect} value={filters.category} onChange={e => setFilter({ category: e.target.value })}>
           <option value="all">All Categories</option>
           {uniqueCategories.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
-
-        <select
-          className={styles.filterSelect}
-          value={filters.sort}
-          onChange={e => setFilter({ sort: e.target.value })}
-        >
+        <select className={styles.filterSelect} value={filters.sort} onChange={e => setFilter({ sort: e.target.value })}>
           <option value="date-desc">Newest First</option>
           <option value="date-asc">Oldest First</option>
           <option value="amount-desc">Highest Amount</option>
@@ -66,7 +62,6 @@ export default function TransactionTable() {
         </select>
       </div>
 
-      {/* Table */}
       <div className={styles.tableWrap}>
         {transactions.length === 0 ? (
           <div className={styles.empty}>
@@ -89,10 +84,7 @@ export default function TransactionTable() {
                 <tr key={t.id}>
                   <td>
                     <div className={styles.descCell}>
-                      <div
-                        className={styles.rowIcon}
-                        style={{ background: (CATEGORY_COLORS[t.category] || '#9ca3af') + '22' }}
-                      >
+                      <div className={styles.rowIcon} style={{ background: (CATEGORY_COLORS[t.category] || '#9ca3af') + '22' }}>
                         {CATEGORY_ICONS[t.category] || '💳'}
                       </div>
                       <div>
@@ -103,13 +95,7 @@ export default function TransactionTable() {
                   </td>
                   <td className={styles.dateCell}>{fmtDate(t.date)}</td>
                   <td className={styles.hideSm}>
-                    <span
-                      className={styles.catBadge}
-                      style={{
-                        background: (CATEGORY_COLORS[t.category] || '#9ca3af') + '22',
-                        color: CATEGORY_COLORS[t.category] || '#9ca3af',
-                      }}
-                    >
+                    <span className={styles.catBadge} style={{ background: (CATEGORY_COLORS[t.category] || '#9ca3af') + '22', color: CATEGORY_COLORS[t.category] || '#9ca3af' }}>
                       {t.category}
                     </span>
                   </td>
@@ -127,8 +113,6 @@ export default function TransactionTable() {
           </table>
         )}
       </div>
-
-      {modalOpen && <AddTransactionModal onClose={() => setModalOpen(false)} />}
     </div>
   );
 }
